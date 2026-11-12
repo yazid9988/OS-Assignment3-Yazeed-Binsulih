@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 // TODO (Feature 1 and Feature 2): import java.util.concurrent.locks.ReentrantLock;
 // TODO (Feature 3):               import java.util.concurrent.Semaphore;
@@ -145,7 +146,7 @@ class ReadyQueue {
     private final ReentrantLock lock = new ReentrantLock();  // TODO Feature 1: declare the lock protecting `list` and `map` here
 
     // TODO Feature 3: declare the counting semaphore that counts the processes waiting in the ready queue here
-
+    private final Semaphore availableProcesses = new Semaphore(0);
     // Add a process to the ready queue (new process, or a process that did not finish its quantum)
     public void add(Process process) {
         lock.lock(); // feature 1: protect this critical section
@@ -156,6 +157,7 @@ class ReadyQueue {
         map.put(thread, process);
 
         // TODO Feature 3: signal that one more process is available in the queue
+        availableProcesses.release();
 
         System.out.println(Colors.BLUE + "  ➕ " + Colors.BOLD + Colors.CYAN + process.getName() + Colors.RESET +
                 Colors.BLUE + " (Priority: " + process.getPriority() + ") added to ready queue" + Colors.RESET +
@@ -163,7 +165,10 @@ class ReadyQueue {
                 " of " + process.getBurstTime() + "ms");
         } finally {lock.unlock();}
     }
-
+    // TODO Feature 3: block until a process is available in the ready queue
+    public void waitForAvailableProcess() throws InterruptedException {
+        availableProcesses.acquire();
+    }
     // Remove and return the thread at the head of the queue (or null if the queue is empty)
     public Thread poll() {
         lock.lock(); // feature 1: protect this critical section
@@ -198,6 +203,10 @@ class ReadyQueue {
             }
             return sb.length() == 0 ? "empty" : sb.toString();
         } finally {lock.unlock();}
+    }
+    public void wakeUpAllWaitingCPUs() {
+        //Feature 3: wake up all CPUs that are blocked on the semaphore
+        availableProcesses.release(SharedStats.totalCPUs);
     }
 }
 
@@ -304,20 +313,19 @@ class CpuWorker extends Thread {
     @Override
     public void run() {
         while (SharedStats.getCompletedProcessCount() < SharedStats.totalProcesses) {
-
+              // TODO Feature 3: block until a process is available in the ready queue
             // TODO Feature 3: replace this polling loop by a blocking wait on the counting semaphore
-            Thread thread = readyQueue.poll();
-            if (thread == null) {
-                // ⚠️ BUSY WAITING: the CPU keeps checking an empty queue instead of sleeping until
-                // a process is available. It wastes CPU time and needs the "completed == total" test above to stop.
-                SharedStats.busyWaitPolls.incrementAndGet();      // (counted for the verification block)
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
-                    return;
-                }
-                continue;
+            try {
+                readyQueue.waitForAvailableProcess();
+            } catch (InterruptedException e) {
+                System.out.println("CPU-" + cpuId + " interrupted while waiting for a process.");
+                return;
             }
+            if (SharedStats.getCompletedProcessCount() >= SharedStats.totalProcesses) {
+                //Feature 3: Check again after waking up, in case all processes are completed
+                return;
+            }
+            Thread thread = readyQueue.poll();
 
             Process process = readyQueue.processOf(thread);
             System.out.println(Colors.MAGENTA + "  ┌─ [CPU-" + cpuId + "] picks " + Colors.BRIGHT_CYAN +
@@ -338,6 +346,9 @@ class CpuWorker extends Thread {
 
             // TODO Feature 3: when the LAST process has completed, wake up the CPUs that are blocked on the
             // semaphore so that they can terminate (otherwise they would wait forever!)
+            if (SharedStats.getCompletedProcessCount() == SharedStats.totalProcesses) {
+                readyQueue.wakeUpAllWaitingCPUs();
+            }
         }
     }
 }
