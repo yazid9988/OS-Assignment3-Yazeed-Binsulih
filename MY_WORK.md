@@ -132,16 +132,16 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
-**What I did**:
+### Entry 1 - [November 8, 2026, 11:00 AM]
+**What I did**: Set up the project in VS Code and added my student ID\.
 
 **Details**:
-
-**Challenges**:
-
-**Solution**:
-
-**Time spent**:
+• Downloaded the project from my GitHub repository and opened it in Visual Studio Code.
+• Reviewed the project files and prepared the Java source code for development.
+• Updated the student ID in SchedulerSimulationSync.java.
+**Challenges**: I did not face any major challenges during this step because importing a GitHub repository into Visual Studio Code was a familiar process from a previous assignment.
+**Solution**: I followed the same workflow I had used before to open the repository in Visual Studio Code and prepare the project for development.
+**Time spent**: 15 minutes 
 
 ---
 
