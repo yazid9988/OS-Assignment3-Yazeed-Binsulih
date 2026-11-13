@@ -193,16 +193,21 @@
 
 ---
 
-### Entry 5 - [Date and time]
-**What I did**:
+### Entry 5 - [November 13, 2026, 10:00 PM]
+**What I did**: Tested the program and checked the final verification results.
 
 **Details**:
+• Ran the program in Visual Studio Code.
+• Reviewed the process summary and the Verification Block.
+• Checked the expected and observed values for context switches, completed processes, and total service time.
+• Checked that the busy-waiting polls value was zero.
+• Reviewed the output to make sure that all verification checks passed.
 
-**Challenges**:
+**Challenges**: The main challenge was ensuring that the three synchronization features worked correctly together and that the program produced consistent results\. I also needed to verify that the synchronization changes did not introduce new concurrency problems.
 
-**Solution**:
+**Solution**: I examined the program output and compared the expected values with the observed values in the Verification Block. I also reviewed the process summary and checked the busy-waiting polls to confirm that the program behaved as expected.
 
-**Time spent**:
+**Time spent**: 35 minutes 
 
 ---
 
