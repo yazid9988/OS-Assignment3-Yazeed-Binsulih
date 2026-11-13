@@ -159,16 +159,19 @@
 
 ---
 
-### Entry 3 - [Date and Time]
-**What I did**:
+### Entry 3 - [November 12,2026, 12:15 PM]
+**What I did**: Implemented Feature 2 to protect the shared statistics counters.
 
 **Details**:
+* Identified the shared counters used by the CPU threads.
+* Added ReentrantLock objects to protect access to the shared counters.
+* Protected both reading and updating operations.
 
-**Challenges**:
+**Challenges**: The main challenge was ensuring that multiple threads could not read or update the shared counters in an unsafe way.
 
-**Solution**:
+**Solution**: I used separate locks for the shared counters and protected the operations that read or update them. I also used try/finally blocks to ensure proper lock release and maintain consistent statistics.
 
-**Time spent**:
+**Time spent**: 30 minutes 
 
 ---
 
