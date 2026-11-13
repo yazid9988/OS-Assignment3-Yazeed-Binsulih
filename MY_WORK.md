@@ -132,7 +132,7 @@
 
 ## Your Development Log
 
-### Entry 1 - [November 8, 2026, 11:00 AM]
+### Entry 1 - [November 8, 2026, 10:00 PM]
 **What I did**: Set up the project in VS Code and added my student ID\.
 
 **Details**:
@@ -145,16 +145,17 @@
 
 ---
 
-### Entry 2 - [Date and Time]
-**What I did**:
+### Entry 2 - [November 11, 2026, 2:50 PM]
+**What I did**: Implemented Feature 1 to protect the ReadyQueue using ReentrantLock.
 
 **Details**:
+* Reviewed the ReadyQueue operations and identified the places where multiple CPU threads could access the shared queue.
+* Added a ReentrantLock to protect access to the ReadyQueue.
+**Challenges**: The main challenge was understanding how multiple CPU threads could access the ReadyQueue simultaneously and how this could lead to race conditions or inconsistent queue data.
 
-**Challenges**:
+**Solution**: I reviewed the ReadyQueue methods and protected the shared operations using ReentrantLock. I used try/finally to make sure that the lock was released correctly after each protected operation.
 
-**Solution**:
-
-**Time spent**:
+**Time spent**: 45 minutes 
 
 ---
 
