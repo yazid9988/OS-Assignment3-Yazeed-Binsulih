@@ -175,20 +175,25 @@
 
 ---
 
-### Entry 4 - [Date and Time]
-**What I did**:
+### Entry 4 - [November 12,2026, 4:40 PM]
+**What I did**: Implemented Feature 3 to replace Busy Waiting with a Counting Semaphore.
 
 **Details**:
+* Imported the Java Semaphore class.
+* Created a counting semaphore initialized with zero.
+* Added release() when a process is added to the ReadyQueue.
+* Used acquire() to make CPU threads wait when no process is available.
+* Removed the previous busy-waiting mechanism that repeatedly checked whether the queue contained a process.
 
-**Challenges**:
+**Challenges**: The main challenge was understanding how the counting semaphore should coordinate the available processes and CPU threads. Another challenge was handling the shutdown mechanism correctly, because CPU threads waiting on acquire() needed to wake up and terminate when all processes were completed.
 
-**Solution**:
+**Solution**: I used a counting semaphore initialized to zero. Each new process releases a permit, allowing a waiting CPU thread to continue.
 
-**Time spent**:
+**Time spent**: 50 minutes 
 
 ---
 
-### Entry 5 - [Date and Time]
+### Entry 5 - [Date and time]
 **What I did**:
 
 **Details**:
