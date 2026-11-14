@@ -259,7 +259,23 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Part B: Reflection
+
+Question 1: What did you learn about synchronization?
+
+I learned that synchronization is essential when multiple threads access shared data at the same time. Before this assignment, I understood the basic idea of threads, but I did not fully realize how race conditions could cause incorrect results. I learned how ReentrantLock provides mutual exclusion and protects critical sections from simultaneous access. I also understood why using try/finally is important to guarantee that locks are released properly. Another important thing I learned was how a counting semaphore allows CPU threads to wait efficiently instead of using busy waiting. This assignment helped me understand the practical importance of synchronization in multithreaded applications.
+
+Question 2: What was the most challenging part of this assignment?
+
+The most challenging part of this assignment was implementing the counting semaphore and understanding how CPU threads should coordinate with the ready queue. At first, I found it difficult to understand how the semaphore controls the availability of processes. Choosing the correct initial value was also important because it had to represent the number of available processes. Another challenge was handling the shutdown mechanism when all processes were completed. I had to understand why CPU threads waiting inside acquire() needed to be released before the program could terminate. This part required careful attention because an incorrect implementation could cause threads to wait indefinitely.
+
+Question 3: How did you overcome the challenges you faced?
+
+I overcame these challenges by dividing the assignment into smaller features and working on each one separately. I reviewed the assignment instructions and studied the relevant synchronization concepts from the course materials. I also examined the existing Java code to understand how the ReadyQueue, SharedStats, and CpuWorker classes interact. When I faced difficulties, I reviewed the methods and conditions carefully to understand how the threads communicate with each other. I tested the changes by running the program and examining its console output. I also sought guidance to improve my understanding of the code and the purpose of each synchronization mechanism.
+
+Question 4: Where can synchronization concepts be applied in real-world applications?
+
+Synchronization is widely used in real-world applications where multiple users or processes access shared resources. For example, banking systems use synchronization to prevent two transactions from incorrectly modifying the same account balance at the same time. Online booking systems use similar mechanisms to prevent multiple customers from reserving the same seat. Database management systems also use locks to maintain data consistency when several transactions access shared records. Operating systems use synchronization to coordinate processes and manage shared resources safely. These examples helped me understand that the concepts I implemented in this assignment are important in many practical software systems.]
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -267,7 +283,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[The most challenging part of this assignment was implementing the counting semaphore and understanding how CPU threads should coordinate with the ready queue. At first, I found it difficult to understand how the semaphore controls the availability of processes. Choosing the correct initial value was also important because it had to represent the number of available processes. Another challenge was handling the shutdown mechanism when all processes were completed. I had to understand why CPU threads waiting inside acquire() needed to be released before the program could terminate. This part required careful attention because an incorrect implementation could cause threads to wait indefinitely.]
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -275,7 +291,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[I overcame these challenges by dividing the assignment into smaller features and working on each one separately. I reviewed the assignment instructions and studied the relevant synchronization concepts from the course materials. I also examined the existing Java code to understand how the ReadyQueue, SharedStats, and CpuWorker classes interact. When I faced difficulties, I reviewed the methods and conditions carefully to understand how the threads communicate with each other. I tested the changes by running the program and examining its console output. I also sought guidance to improve my understanding of the code and the purpose of each synchronization mechanism.]
 
 ## Question 4: Where can synchronization concepts be applied in real-world applications?
 
@@ -283,7 +299,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Synchronization is widely used in real-world applications where multiple users or processes access shared resources. For example, banking systems use synchronization to prevent two transactions from incorrectly modifying the same account balance at the same time. Online booking systems use similar mechanisms to prevent multiple customers from reserving the same seat. Database management systems also use locks to maintain data consistency when several transactions access shared records. Operating systems use synchronization to coordinate processes and manage shared resources safely. These examples helped me understand that the concepts I implemented in this assignment are important in many practical software systems.]
 
 ### Optional: What would you like to learn more about?
 
