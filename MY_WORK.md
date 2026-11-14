@@ -259,8 +259,6 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Part B: Reflection
-
 Question 1: What did you learn about synchronization?
 
 I learned that race conditions can cause incorrect results when multiple threads access and modify shared data at the same time. Before this assignment, I did not fully understand how easily one thread could overwrite another thread’s update. I also learned that synchronization tools such as locks can protect shared resources. The most important lesson was that a program may appear to work correctly in some runs but still contain synchronization problems. Testing the program multiple times helped me understand the importance of reliable synchronization.
