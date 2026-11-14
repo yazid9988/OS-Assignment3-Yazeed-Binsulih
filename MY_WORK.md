@@ -42,7 +42,7 @@
 
 ## 🎥 Video Link
 
-**Video Link**: [Paste your video link here]
+**Video Link**: [video link](https://drive.google.com/file/d/1sbf5g6erT5AmFWKvDlKsGh4y4Dh-3NqM/view?usp=drivesdk)
 
 > ⚠️ **WARNING:** The video must be **publicly accessible** ("Anyone with the link can view") on **Google Drive**, **YouTube (Unlisted or Public)** or any other cloud file-sharing system. A private, restricted or broken link counts as a **missing video (-1 mark)**.
 >
@@ -211,16 +211,21 @@
 
 ---
 
-### Entry 6 - [Optional - Date and Time]
-**What I did**:
+### Entry 6 - [November 14, 2026]
+**What I did**: Recorded the project demonstration video and prepared the final documentation.
 
 **Details**:
+* Prepared a demonstration explaining the main parts of the project.
+* Recorded the program execution and displayed the final output.
+* Explained the three implemented synchronization features.
+* Showed the final verification results.
+* Prepared the video link to include in MY_WORK.md.
 
-**Challenges**:
+**Challenges**: The main challenge was organizing the demonstration to explain the implementation clearly while showing the actual program execution and final results within the required video duration.
 
-**Solution**:
+**Solution**: I organised the demonstration into clear sections, starting with the project overview, followed by the three implemented features, the program execution, and the final verification results.
 
-**Time spent**:
+**Time spent**: 30 minutes 
 
 ---
 
