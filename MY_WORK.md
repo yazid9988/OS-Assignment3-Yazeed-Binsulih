@@ -263,20 +263,19 @@
 
 Question 1: What did you learn about synchronization?
 
-I learned that synchronization is essential when multiple threads access shared data at the same time. Before this assignment, I understood the basic idea of threads, but I did not fully realize how race conditions could cause incorrect results. I learned how ReentrantLock provides mutual exclusion and protects critical sections from simultaneous access. I also understood why using try/finally is important to guarantee that locks are released properly. Another important thing I learned was how a counting semaphore allows CPU threads to wait efficiently instead of using busy waiting. This assignment helped me understand the practical importance of synchronization in multithreaded applications.
+I learned that race conditions can cause incorrect results when multiple threads access and modify shared data at the same time. Before this assignment, I did not fully understand how easily one thread could overwrite another thread’s update. I also learned that synchronization tools such as locks can protect shared resources. The most important lesson was that a program may appear to work correctly in some runs but still contain synchronization problems. Testing the program multiple times helped me understand the importance of reliable synchronization.
 
 Question 2: What was the most challenging part of this assignment?
 
-The most challenging part of this assignment was implementing the counting semaphore and understanding how CPU threads should coordinate with the ready queue. At first, I found it difficult to understand how the semaphore controls the availability of processes. Choosing the correct initial value was also important because it had to represent the number of available processes. Another challenge was handling the shutdown mechanism when all processes were completed. I had to understand why CPU threads waiting inside acquire() needed to be released before the program could terminate. This part required careful attention because an incorrect implementation could cause threads to wait indefinitely.
+The most challenging part was identifying where synchronization was needed and choosing the correct synchronization mechanism for each shared resource. I had to understand how CPU threads interact with the ready queue and shared counters. Another challenge was replacing busy waiting with a semaphore without causing threads to remain blocked. I solved these problems by reviewing the code, understanding the role of each lock and semaphore, and testing the program after making changes. This helped me become more confident in debugging multithreaded programs.
 
 Question 3: How did you overcome the challenges you faced?
 
-I overcame these challenges by dividing the assignment into smaller features and working on each one separately. I reviewed the assignment instructions and studied the relevant synchronization concepts from the course materials. I also examined the existing Java code to understand how the ReadyQueue, SharedStats, and CpuWorker classes interact. When I faced difficulties, I reviewed the methods and conditions carefully to understand how the threads communicate with each other. I tested the changes by running the program and examining its console output. I also sought guidance to improve my understanding of the code and the purpose of each synchronization mechanism.
+The most interesting part was seeing how synchronization mechanisms affect the behavior of multiple threads. I found it interesting that a small timing difference between threads can lead to lost updates and incorrect results. Using locks ensured that only one thread could modify protected shared data at a time. I also learned how semaphores allow threads to wait efficiently until work becomes available. This assignment helped me connect the theoretical concepts of operating systems with practical programming.
 
 Question 4: Where can synchronization concepts be applied in real-world applications?
 
-Synchronization is widely used in real-world applications where multiple users or processes access shared resources. For example, banking systems use synchronization to prevent two transactions from incorrectly modifying the same account balance at the same time. Online booking systems use similar mechanisms to prevent multiple customers from reserving the same seat. Database management systems also use locks to maintain data consistency when several transactions access shared records. Operating systems use synchronization to coordinate processes and manage shared resources safely. These examples helped me understand that the concepts I implemented in this assignment are important in many practical software systems.]
-
+If I could do this assignment again, I would study the starter code more carefully before making changes. I would identify all shared resources and understand how each thread accesses them. I would also create a clear synchronization plan before implementing locks and semaphores. Testing after each modification would help me identify problems earlier and make debugging easier. Overall, I would spend more time planning and documenting my changes to make the development process more organized.
 ## Question 2: What was the most challenging part of this assignment?
 
 > 💡 **TIP:** Pick **one** specific challenge (understanding why the starter failed, choosing the lock granularity, the initial value of the semaphore, the shutdown of the CPUs, Git, the video) and say *why* it was hard.
@@ -387,9 +386,7 @@ All shared values are consistent.]
 
 **Your Answer:** *(3-5 sentences)*
 
-[Your Answer
-
-In the starter version, CPUs repeatedly checked the ready queue when it was empty, causing busy waiting and wasting CPU time. In my starter run, the number of busy-waiting polls was 153. In the final version, I used a counting semaphore initialized to 0 because no processes were available initially; its value represents the number of available processes, and after the initial numProcesses add calls, its value becomes 12. When the queue is empty, a CPU blocks in acquire() instead of continuously checking the queue. At the end, the last CPU calls release(totalCPUs) to wake all waiting CPUs so they can terminate; otherwise, they could remain blocked forever.]
+[In the starter version, CPUs repeatedly checked the ready queue when it was empty, causing busy waiting and wasting CPU time. In my starter run, the number of busy-waiting polls was 153. In the final version, I used a counting semaphore initialized to 0 because no processes were available initially; its value represents the number of available processes, and after the initial numProcesses add calls, its value becomes 12. When the queue is empty, a CPU blocks in acquire() instead of continuously checking the queue. At the end, the last CPU calls release(totalCPUs) to wake all waiting CPUs so they can terminate; otherwise, they could remain blocked forever.]
 
 ## Question 4: Classical Problems and Deadlock
 
