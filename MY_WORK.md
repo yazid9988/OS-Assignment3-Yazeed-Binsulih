@@ -333,7 +333,7 @@ Synchronization is widely used in real-world applications where multiple users o
 
 **Your Answer:** *(3-5 sentences)*
 
-[The original program failed the verification checks because of race conditions and busy waiting. The observed values were lower than expected, and the program completed only 13 processes instead of 16. In my final version, all verification checks passed, with 23 context switches, 12 completed processes, and zero busy-waiting polls. This shows that synchronization improved the consistency of shared data and thread coordination.]
+[The original program failed the verification checks because of race conditions and busy waiting. The observed values did not match the expected values: context switches were 27 instead of 23, completed processes were 13 instead of 12, and total service time was 81680 ms instead of 55853 ms. For example, CPU-1 reads contextSwitchCount = 12, then CPU-2 reads the same value before CPU-1 updates it. CPU-1 writes 13, and CPU-2 also writes 13, so one increment is lost instead of reaching 14. This can happen on a real machine without RaceWindow.pause() because thread execution can be interrupted and interleaved, and it is difficult to detect because it depends on timing and may not happen in every run.]
 
 Verification block of the **original starter**:
 ```
