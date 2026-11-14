@@ -233,13 +233,13 @@
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: [3 hours]
 
-**Most challenging part**:
+**Most challenging part**: implementing thread synchronization correctly. Understanding how multiple CPU threads access shared resources and ensuring that they do not interfere with each other required careful attention. Using locks and semaphores helped me understand how synchronization prevents race conditions and maintains data consistency.
 
-**Most interesting learning**:
+**Most interesting learning**: how synchronization mechanisms work in real multithreaded programs. I learned the difference between using locks to protect shared data and using semaphores to control thread coordination. This assignment helped me connect the theoretical concepts from the Operating Systems course with practical Java programming.
 
-**What I would do differently next time**:
+**What I would do differently next time**: If I worked on this assignment again, I would spend more time planning the program structure before starting the implementation. I would also test each synchronization feature separately before combining everything into one program. This would make debugging easier, help me identify problems earlier, and improve the overall code quality.
 
 ---
 
