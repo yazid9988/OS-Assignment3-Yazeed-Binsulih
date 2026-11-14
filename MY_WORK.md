@@ -338,9 +338,9 @@ Synchronization is widely used in real-world applications where multiple users o
 Verification block of the **original starter**:
 ```
 [═══ VERIFICATION (expected values are computed from YOUR seed) ═══
-Context switches (quanta executed)  expected 34  observed 27  ✘ MISMATCH
-Completed processes                 expected 16  observed 13  ✘ MISMATCH
-Total service time (ms)             expected 104515  observed 81680  ✘ MISMATCH
+Context switches (quanta executed)  expected 23  observed 27  ✘ MISMATCH
+Completed processes                 expected 12  observed 13  ✘ MISMATCH
+Total service time (ms)             expected 55853 observed 81680  ✘ MISMATCH
 Busy-waiting polls (must be 0)       expected 0  observed 153  ✘ MISMATCH
 ✘ At least one check failed (see the ✘ lines above): a race condition or busy waiting is still present.]
 ```
