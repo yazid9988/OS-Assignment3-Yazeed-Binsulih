@@ -333,20 +333,30 @@ Synchronization is widely used in real-world applications where multiple users o
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[The original program failed the verification checks because of race conditions and busy waiting. The observed values were lower than expected, and the program completed only 13 processes instead of 16. In my final version, all verification checks passed, with 23 context switches, 12 completed processes, and zero busy-waiting polls. This shows that synchronization improved the consistency of shared data and thread coordination.]
 
 Verification block of the **original starter**:
 ```
-[Paste the verification block (or the exception/watchdog message) of the starter here]
+[═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+Context switches (quanta executed)  expected 34  observed 27  ✘ MISMATCH
+Completed processes                 expected 16  observed 13  ✘ MISMATCH
+Total service time (ms)             expected 104515  observed 81680  ✘ MISMATCH
+Busy-waiting polls (must be 0)       expected 0  observed 153  ✘ MISMATCH
+✘ At least one check failed (see the ✘ lines above): a race condition or busy waiting is still present.]
 ```
 
 Verification block of **my final version**:
 ```
-[Paste the verification block of your final version here (all lines ✔)]
+[═══ VERIFICATION (expected values are computed from YOUR seed) ═══
+Context switches (quanta executed)  expected 23  observed 23  ✔
+Completed processes                 expected 12  observed 12  ✔
+Total service time (ms)             expected 55853  observed 55853  ✔
+Busy-waiting polls (must be 0)       expected 0  observed 0  ✔
+All shared values are consistent.]
 ```
 
 **Explanation of the timeline:**
-[Explain the lost update step by step.]
+[CPU-1 reads contextSwitchCount = 12, then CPU-2 reads the same value before CPU-1 updates it. CPU-1 writes 13, and CPU-2 also writes 13, so one increment is lost instead of reaching 14. This can also happen on a real machine without RaceWindow.pause() because thread execution can be interrupted and interleaved at any time. It is difficult to detect because the problem depends on timing and may not occur in every execution.]
 
 ## Question 2: Critical Sections and Lock Granularity
 
@@ -356,12 +366,18 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[I used one separate ReentrantLock for each of the three statistics: contextLock, completedLock, and serviceLock. This allows independent statistics to be updated concurrently without blocking each other, although it requires managing more locks. The ready queue uses its own lock because it protects different shared data (list and map), and separating it avoids unnecessary contention between queue operations and statistics updates. The locks provide mutual exclusion by allowing only one thread at a time to enter each protected critical section, and the finally blocks ensure that locks are released. This supports progress, but the default ReentrantLock is not fair, so a waiting thread is not guaranteed to acquire the lock within a bounded time and could experience long waiting.]
 
 | Critical section (variable / method) | Lock used | Why it needs protection |
 |---|---|---|
 | [e.g., `ReadyQueue.poll()`] | [lock name] | [reason] |
-| [...] | [...] | [...] |
+| [contextSwitchCount – incrementContextSwitch() / getContextSwitchCount()] | [contextLock] | [Prevents lost updates and protects reading the counter.] |
+| [completedProcessCount – incrementCompletedProcess() / getCompletedProcessCount()] | [completedLock] | [Prevents lost updates when multiple processes finish.] |
+| [totalServiceTime – addServiceTime() / getTotalServiceTime()] | [serviceLock] | [Prevents incorrect updates to the shared total.] |
+| [ReadyQueue.add()] | [lock] | [Protects adding processes to the shared queue and map.] |
+| [ReadyQueue.poll()] | [lock] | [Prevents multiple CPUs from removing the same process.] |
+| [ReadyQueue.processOf()] | [lock] | [Protects access to the shared map.] |
+| [ReadyQueue.snapshot()] | [lock] | [Protects reading the queue and map consistently.] |
 
 ## Question 3: Busy Waiting vs Semaphore
 
@@ -371,7 +387,9 @@ Verification block of **my final version**:
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[Your Answer
+
+In the starter version, CPUs repeatedly checked the ready queue when it was empty, causing busy waiting and wasting CPU time. In my starter run, the number of busy-waiting polls was 153. In the final version, I used a counting semaphore initialized to 0 because no processes were available initially; its value represents the number of available processes, and after the initial numProcesses add calls, its value becomes 12. When the queue is empty, a CPU blocks in acquire() instead of continuously checking the queue. At the end, the last CPU calls release(totalCPUs) to wake all waiting CPUs so they can terminate; otherwise, they could remain blocked forever.]
 
 ## Question 4: Classical Problems and Deadlock
 
@@ -382,24 +400,26 @@ Verification block of **my final version**:
 **Your Answer:** *(3-5 sentences)*
 
 **Classical problem and roles**:
-[Name the problem; who is the producer, who is the consumer?]
+[The classical problem is the Producer–Consumer Problem. The main thread acts as a producer when it adds initial processes, and CPU threads act as consumers when they remove processes from the ready queue. CPUs can also act as producers when they re-enqueue unfinished processes.]
 
 **Semaphores for a bounded queue (name and initial value)**:
-[Name the three semaphores and their initial values.]
+[* empty = K: represents the available slots in the queue.
+* full = 0: represents the occupied slots in the queue.
+* mutex = 1: ensures mutual exclusion when accessing the queue.]
 
 **Deadlock scenario and prevention**:
-[Describe the scenario and the necessary condition you would break.]
+[A deadlock can occur if a producer acquires the mutex before waiting for an empty slot. If the queue is full, the producer holds the mutex while waiting, and a consumer cannot acquire the mutex to remove an item and create a free slot. This violates the hold-and-wait condition. To prevent deadlock, wait for an empty slot before acquiring the mutex, and release the mutex before waiting for another semaphore.]
 
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1. Race conditions and how synchronization prevents lost updates when multiple threads access shared variables.
+2. The use of separate locks to protect critical sections and provide mutual exclusion.
+3. The difference between busy waiting and semaphores, and how the Producer–Consumer problem relates to process scheduling.
 
 **Concepts I need to study more:**
-1.
-2.
+1. Deadlock conditions and different ways to prevent deadlocks.
+2. Semaphore behavior, lock fairness, and bounded waiting.
 
 ---
 
